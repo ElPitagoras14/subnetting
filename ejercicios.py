@@ -1,37 +1,39 @@
-from funciones_redes import *
+import subnetting as snt
 
-#Autor: Pitagoras
-
-#Funciones útiles - Ejemplo
-dic1 = host_FLSM("192.230.0.0", 24, 200) #El tercer valor es la cantidad de host utilizable mínimo por subred
+# Funciones útiles - Ejemplo
+# El tercer valor es la cantidad de host utilizable mínimo por subred
+dic1 = snt.host_FLSM("192.230.0.0", 24, 200)
 print("EJEMPLO NUMERO 1")
-presentar_redes(dic1)
+snt.print_subnets(dic1)
 print("")
+print()
 
-dic2 = red_FLSM("192.188.224.0", 21, 16) #El tercer valor es la cantidad de redes mínima
+# El tercer valor es la cantidad de redes mínima
+dic2 = snt.red_FLSM("192.188.224.0", 21, 16)
 print("EJEMPLO NUMERO 2")
-presentar_redes(dic2)
+snt.print_subnets(dic2)
 print("")
 
-lista = [100, 25, 50, 25] #Lista de los host utilizable minimo por red
 print("EJEMPLO NUMERO 3")
-dic3 = host_ord_VLSM("200.10.100.0", 24, lista) #Ordena la lista de mayor a menor
-presentar_redes(dic3)
+lista = [50, 25, 100, 25]  # Lista de los host utilizable minimo por red
+# Ordena la lista de mayor a menor
+dic3 = snt.host_ord_VLSM("200.10.100.0", 24, lista)
+snt.print_subnets(dic3)
 print("")
 
-dic4 = host_VLSM("200.10.100.0", 24, lista)  #Hace VLSM en el orden de los host. Usable cuando ya se realizó 
-                                            #el arbol de direccionamiento y se agregan las hojas de izq a der
+# Hace VLSM en el orden de los host. Usable cuando ya se realizó el arbol de direccionamiento y se agregan las hojas de izq a der
+dic4 = snt.host_VLSM("200.10.100.0", 24, lista)
 print("EJEMPLO NUMERO 4")
-presentar_redes(dic4)
+snt.print_subnets(dic4)
 print("")
 
 
-#--------------------------------SECCION PROYECTO-------------------------------
+# --------------------------------SECCION PROYECTO-------------------------------
 #PROYECTO - Ejercicio
-#Función para obtener la lista con los nombres de cada Red
+# Función para obtener la lista con los nombres de cada Red
 def obtener_nombre_redes():
     lista_nombre = ["VENTAS GYE", "D. PRO GYE", "SEGUR GYE", "LOGIS GYE", "AT CLIEN GYE", "TEC INF GYE",
-                "CON CA GYE", "MERC GYE"]
+                    "CON CA GYE", "MERC GYE"]
     for i in range(6):
         lista_nombre.append("LIBRE")
     for elem in ["VENTAS UIO", "AT CLIEN UIO", "MERCA UIO", "COMPRA UIO", "RRHH UIO", "LIBRE"]:
@@ -49,7 +51,9 @@ def obtener_nombre_redes():
 
     return lista_nombre
 
-#Función para obtener la lista con la cantidad de host utilizable por red
+# Función para obtener la lista con la cantidad de host utilizable por red
+
+
 def obtener_lista_cantidad_host():
     listaN = [512, 512]
     for i in range(4):
@@ -76,10 +80,11 @@ def obtener_lista_cantidad_host():
         listaN[i] -= 2
 
     return listaN
-    
+
+
 listaN = obtener_lista_cantidad_host()
 listaNombre = obtener_nombre_redes()
 
-dic = host_VLSM("90.178.192.0", 19, listaN)
-#presentarRedes(dic, listaNombre)
-escribir_redes(dic, listaNombre)
+dic = snt.host_VLSM("90.178.192.0", 19, listaN)
+snt.print_subnets(dic, listaNombre)
+#snt.write_subnets(dic, listaNombre)
