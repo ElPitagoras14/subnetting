@@ -27,7 +27,7 @@ Código escrito en python donde se emplea el algoritmo para la segmentación de 
 
 Para hacer uso de las funciones de FLSM y VLSM hay 4 opciones y 2 funciones para presentar las subredes. Adicionalmente hay un código de ejemplo en `./ejercicio.py`.
 
-Todos las funciones evuelven un diccionario donde la clave es el número de red y el valor una lista con la ip de subred, nueva máscara e ip de broadcast.
+Todos las funciones devuelven un diccionario donde la clave es el número de red y el valor una lista con la ip de subred, nueva máscara e ip de broadcast.
 
 ### FLSM por redes mínimas
 
