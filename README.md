@@ -2,10 +2,10 @@
 
 ## Tabla de Contenidos
 
-1. [Descripción](#descripción)
+1. [Descripción](#descripcion)
 2. [Uso](#uso)
-    - [FLSM por red](#flsm-por-redes-mínimas)
-    - [FLSM por host](#flsm-por-host-mínimos)
+    - [FLSM por red](#flsm-por-redes-min)
+    - [FLSM por host](#flsm-por-host-min)
     - [VLSM host ordenado](#vlsm-por-host-ordenados)
     - [VLSM host](#vlsm-por-host)
     - [Mostrar por consola](#imprimir-por-consola)
@@ -19,7 +19,7 @@
     - [Ejemplo](#algoritmo-1)
 
 
-## Descripción
+## Descripcion
 
 Código escrito en python donde se emplea el algoritmo para la segmentación de IP con las técnicas FLSM y VLSM.
 
@@ -29,7 +29,7 @@ Para hacer uso de las funciones de FLSM y VLSM hay 4 opciones y 2 funciones para
 
 Todos las funciones devuelven un diccionario donde la clave es el número de red y el valor una lista con la ip de subred, nueva máscara e ip de broadcast.
 
-### FLSM por redes mínimas
+### FLSM por redes min
 
 Realiza subnetting con la técnica FLSM pasando como argumentos la ip inicial, la máscara de la red y la cantidad de redes mínimas que necesita.
 
@@ -38,7 +38,7 @@ def red_FLSM(ip: str, mascara: int, redes_minima: int):
     #method
 ```
 
-### FLSM por host mínimos
+### FLSM por host min
 
 Realiza subnetting con el técnica FLSM pasando como argumentos la ip inicial, la máscara de la red y la cantidad de host mínimos que necesita.
 
