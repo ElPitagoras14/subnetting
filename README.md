@@ -1,119 +1,200 @@
 # IP Segmentation Algorithm
 
-## Tabla de Contenidos
+## Table of Content
 
-1. [Descripción](#descripcion)
-2. [Uso](#uso)
-    - [FLSM por red](#flsm-por-redes-min)
-    - [FLSM por host](#flsm-por-host-min)
-    - [VLSM host ordenado](#vlsm-por-host-ordenados)
-    - [VLSM host](#vlsm-por-host)
-    - [Mostrar por consola](#imprimir-por-consola)
-    - [Guardar en un archivo](#guardar-en-un-archivo)
-3. [Términos y Ecuaciones](#términos-y-ecuaciones)
-4. [FLSM](#flsm-fixed-length-subnet-mask)
-    - [Algoritmo](#algoritmo)
-    - [Ejemplo](#ejemplo)
-5. [VLSM](#vlsm-variable-length-subnet-mask)
-    - [Algoritmo](#algoritmo-1)
-    - [Ejemplo](#algoritmo-1)
+1. [Descripcion](#description)
+2. [Class Use](#class-use)
+    - [FLSM by network](#flsm-by-minimal-networks)
+    - [FLSM by host](#flsm-by-minimal-hosts)
+    - [VLSM sorted host](#vlsm-by-sorted-hosts)
+    - [VLSM host](#vlsm-by-hosts)
+    - [Show in console](#print-by-console)
+    - [Save to a file](#save-to-a-file)
+3. [Classless Use](#classless-use)
+    - [FLSM by network](#flsm-by-minimal-networks-1)
+    - [FLSM by host](#flsm-by-minimal-hosts-1)
+    - [VLSM sorted host](#vlsm-by-sorted-hosts-1)
+    - [VLSM host](#vlsm-by-hosts-1)
+    - [Show in console](#print-by-console-1)
+    - [Save to a file](#save-to-a-file-1)
+4. [Terms and Equations](#terms-and-equations)
+5. [FLSM](#flsm-fixed-length-subnet-mask)
+    - [Algoritmo](#algorithm)
+    - [Ejemplo](#example)
+6. [VLSM](#vlsm-variable-length-subnet-mask)
+    - [Algoritmo](#algorithm-1)
+    - [Ejemplo](#example-1)
 
 
-## Descripcion
+## Description
 
-Código escrito en python donde se emplea el algoritmo para la segmentación de IP con las técnicas FLSM y VLSM.
+Code written in python where the algorithm for IP segmentation with FLSM and VLSM techniques is used.
 
-## Uso
+## Class Use
 
-Para hacer uso de las funciones de FLSM y VLSM hay 4 opciones y 2 funciones para presentar las subredes. Adicionalmente hay un código de ejemplo en `./ejercicio.py`.
+Making use of the functions is done via the `Subnetting` class in the API.py file, there are 4 options for subnetting and 2 functions for presenting the subnets. Additionally there is some example code in `./example2.py`.
 
-Todos las funciones devuelven un diccionario donde la clave es el número de red y el valor una lista con la ip de subred, nueva máscara e ip de broadcast.
+All the functions save a dictionary in the class instance where the key is the network number and the value is a list with the subnet ip, new mask and broadcast ip.
 
-### FLSM por redes min
+### Create Instance
 
-Realiza subnetting con la técnica FLSM pasando como argumentos la ip inicial, la máscara de la red y la cantidad de redes mínimas que necesita.
+To create an instance of the class is a trivial process. From there, you have to set the values using `set_values` where you must pass the ip and the initial mask.
+
+Once these steps have been carried out, the functions for subnetting can be used by passing the required parameters.
+
+```python
+sbnt = Subnetting()
+sbnt.set_values("192.168.0.0", 22)
+```
+
+### FLSM by minimal networks
+
+It performs subnetting with the FLSM technique passing as argument the number of minimum networks it needs.
+
+```python
+sbnt.network_FLSM(4) #Save the result in sbnt.dic
+```
+
+### FLSM by minimal hosts
+
+It performs subnetting with the FLSM technique passing as argument the number of minimum hosts per network it needs.
+
+```python
+sbnt.host_FLSM(200) #Save the result in sbnt.dic
+```
+
+### VLSM by sorted hosts
+
+It performs subnetting with the VLSM technique passing as argument a list of the number of hosts per network needed.
+
+Additionally, this function sorts the list before subnetting.
+
+```python
+sbnt.host_sort_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
+```
+
+### VLSM by host
+
+It performs subnetting with the VLSM technique passing as argument a list of the number of hosts per network needed.
+
+It is necessary that the addressing tree has been made so that the list has consistency with the hosts and networks.
+
+```python
+sbnt.host_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
+```
+
+### Print by console
+
+This function displays a console table with the subnetting performed by any of the previous functions.
+
+Receives as optional arguments a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
+
+```python
+sbnt.print_subnets() #Print by console
+sbnt.print_subnets(nombres) #Print by console
+```
+
+### Save to a file
+
+This function saves a table with the subnetting performed by any of the previous functions in a file.
+
+Receives as optional arguments a list of strings parallel to the number of items in the dictionary to save each network with a custom name, otherwise it prints **Net i** and optionally a directory to save it.
+
+```python
+sbnt.write_subnets() #Save to networks.txt listed as Net i
+sbnt.write_subnets(nombres) #Save in networks.txt listed as the names of the list
+sbnt.write_subnets(nombres, "resultados.txt") #Save in results.txt listed as the names of the list
+```
+
+## Classless Use
+
+The previously shown functions can be applied without the class, they are also found in the `subnetting.py` file and can be used without problems, but we recommend using the `Subnetting` class.
+
+All the functions return a dictionary where the key is the network number and the value is a list with the subnet ip, new mask and broadcast ip. Additionally there is some example code in `./example1.py`.
+
+### FLSM by minimal networks
+
+It performs subnetting with the FLSM technique passing as arguments the initial ip, the network mask and the number of minimum networks it needs.
 
 ```python
 def red_FLSM(ip: str, mascara: int, redes_minima: int):
     #method
 ```
 
-### FLSM por host min
+### FLSM by minimal hosts
 
-Realiza subnetting con el técnica FLSM pasando como argumentos la ip inicial, la máscara de la red y la cantidad de host mínimos que necesita.
+It performs subnetting with the FLSM technique passing as arguments the initial ip, the network mask and the number of minimum hosts it needs.
 
 ```python
 def host_FLSM(ip: str, mascara: int, host_minimo: int):
     #method
 ```
 
-### VLSM por host ordenados
+### VLSM by sorted hosts
 
-Realiza subnetting con el técnica VLSM pasando como argumentos la ip inicial, la máscara de la red y una lista de la cantidad de host por red necesaria. 
+It performs subnetting with the VLSM technique passing as arguments the initial ip, the network mask and a list of the number of hosts per network needed.
 
-Adicionalmente esta función ordena la lista antes de realizar el subnetting.
+Additionally, this function sorts the list before subnetting.
 
 ```python
 def host_ord_VLSM(ip: str, mascara: int, lista: list):
     #method
 ```
 
-### VLSM por host
+### VLSM by hosts
 
-Realiza subnetting con el técnica VLSM pasando como argumentos la ip inicial, la máscara de la red y una lista de la cantidad de host por red necesaria. 
-
-Es necesario que se haya hecho el arbol de direccionamiento para que la lista tenga consistencia con los host y redes.
+It performs subnetting with the VLSM technique passing as arguments the initial ip, the network mask and a list of the number of hosts per network needed.
 
 ```python
 def host_VLSM(ip: str, mascara: int, lista: list):
     #method
 ```
 
-### Imprimir por consola
+### Print by console
 
-Esta función muestra por consola una tabla con el subnetting realizado por alguno de las funciones previas. 
+This function displays a console table with the subnetting performed by any of the previous functions.
 
-Recibe como argumentos el diccionario de subnetting y opcionalmente una lista de string paralela a la cantidad de items del diccionario para mostrar cada red con un nombre personalizado sino imprime **Red i**.
+Receives the subnetting dictionary as arguments and optionally a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
 
 ```python
 def print_subnets(dic_redes: dict, nombres: list = None):
     #method
 ```
 
-### Guardar en un archivo
+### Save to a file
 
-Esta función guarda en un archivo una tabla con el subnetting realizado por alguno de las funciones previas. 
+This function saves a table with the subnetting performed by any of the previous functions in a file.
 
-Recibe como argumentos el diccionario de subnetting, opcionalmente una lista de string paralela a la cantidad de items del diccionario para guardar cada red con un nombre personalizado sino imprime **Red i** y opcionalmente un directorio donde guardarlo.
+Receives the subnetting dictionary as arguments, optionally a list of strings parallel to the number of items in the dictionary to save each network with a custom name, otherwise it prints **Net i** and optionally a directory to save it.
 
 ```python
 def write_subnets(dic_redes: dict, nombres: list = None, path: str = "./redes.txt"):
     #method
 ```
 
-## Términos y Ecuaciones
+## Terms and Equations
 
-- Número de bits de subred = $n$
-- Número de bits de host = $m$
-- $32=MascaraAnterior + n + m$
-- Número de subredes = $2^n$
-- Tamaño de bloque = $2^m$
-- Número de host utilizables = $2^n-2$
-- $NewMask=LastMask+n$
+- Number of subnet bits = $n$
+- Number of host bits = $m$
+- $32 = PrevMask + n + m$
+- Number of subnets = $2^n$
+- Block size = $2^m$
+- Number of usable hosts = $2^n-2$
+- $NewMask = LastMask+n$
 
 ## FLSM (Fixed Length Subnet Mask)
 
-Se requiere que la división de la red sea en bloques fijos, es decir, la misma cantidad de host en cada subred.
+The division of the network is required to be in fixed blocks, that is, the same number of hosts in each subnet.
 
-### Algoritmo
+### Algorithm
 
-1. Se determina los valores de $n$ y $m$ con las ecuaciones anteriores.
-2. Se determina la nueva mascara mediante $LastMask+n$
-3. Se calcula cómo va a crecer la IP en caso de que el numero de host por subred sea mayor a $256$ dividiendo $2^m/256$. Caso contrario solo se aumenta el numero de host a la nueva subred con la nueva máscara.
+1. The values of $n$ and $m$ are determined with the previous equations.
+2. The new mask is determined by $LastMask+n$
+3. Calculate how the IP will grow if the number of hosts per subnet is greater than $256$ by dividing $2^m/256$. Otherwise, only the host number is increased to the new subnet with the new mask.
 
-### Ejemplo
+### Example
 
-Se requieren **14 host por subred** para la dirección **199.6.14.0/25.** 
+**14 hosts per subnet** are required for address **199.6.14.0/25.**
 
 $$
 32=n+m+25\rightarrow n+m=7;
@@ -127,7 +208,7 @@ $$
 Mask=25+n\rightarrow n=28
 $$
 
-|IP|Máscara|Subred|Broadcast|
+|IP|Mask|Subnet|Broadcast|
 |--|-------|------|---------|
 |199.6.14.0|28|199.6.14.0|199.6.14.15|
 |199.6.14.16|28|199.6.14.16|199.6.14.31|
@@ -138,23 +219,23 @@ $$
 
 ## VLSM (Variable-Length Subnet Mask)
 
-Se requiere que la división de la red sea en bloques de tamaño variable, es decir, puede haber distintas cantidad de host en cada subred.
+The division of the network is required to be in blocks of variable size, that is, there can be different numbers of hosts in each subnet.
 
-El proceso de VLSM es similar a realizar FLSM para cada nueva subred.
+The VLSM process is similar to performing FLSM for each new subnet.
 
-### Algoritmo
+### Algorithm
 
-1. Ordenar de mayor a menor las subredes dependiendo de la cantidad de host de cada una.
-2. Para la primera subred determinar $n$ y $m$ a partir de las ecuaciones anteriores.
-3. Obtener la nueva máscara de red sumando la máscara previa con n.
-4. Tener anotada la dirección IP de la siguiente subred.
-5. Repetir los pasos 2 a 4 para las siguientes subredes
+1. Order the subnets from highest to lowest depending on the number of hosts in each one.
+2. For the first subnet, determine $n$ and $m$ from the above equations.
+3. Get the new netmask by adding the previous netmask with $n$.
+4. Take note of the IP address of the following subnet.
+5. Repeat steps 2 to 4 for the following subnets
 
-### Ejemplo
+### Example
 
-Se necesita una **red de 100, 50, 25 y 25 host.** A partir de la **dirección IP 200.10.100.0/24.**
+**Network of 100, 50, 25 and 25 hosts is required.** Starting at **IP address 200.10.100.0/24.**
 
-|IP|Host|n|m|Máscara|Subred|Broadcast|
+|IP|Host|n|m|Mask|Subnet|Broadcast|
 |--|----|-|-|-------|------|---------|
 |200.10.100.0|100|1|7|25|2000.10.100.0|200.10.100.127|
 |200.10.100.128|50|1|6|26|200.10.100.128|200.10.100.191|
