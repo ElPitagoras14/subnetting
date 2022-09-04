@@ -2,7 +2,7 @@
 
 ## Table of Content
 
-1. [Descripcion](#description)
+1. [Description](#description)
 2. [Class Use](#class-use)
     - [FLSM by network](#flsm-by-minimal-networks)
     - [FLSM by host](#flsm-by-minimal-hosts)
@@ -19,11 +19,11 @@
     - [Save to a file](#save-to-a-file-1)
 4. [Terms and Equations](#terms-and-equations)
 5. [FLSM](#flsm-fixed-length-subnet-mask)
-    - [Algoritmo](#algorithm)
-    - [Ejemplo](#example)
+    - [Algorithm](#algorithm)
+    - [Example](#example)
 6. [VLSM](#vlsm-variable-length-subnet-mask)
-    - [Algoritmo](#algorithm-1)
-    - [Ejemplo](#example-1)
+    - [Algorithm](#algorithm-1)
+    - [Example](#example-1)
 
 
 ## Description
