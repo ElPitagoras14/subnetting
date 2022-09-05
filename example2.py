@@ -4,13 +4,13 @@ sbnt = Subnetting()
 
 # Funciones útiles - Ejemplo
 sbnt.set_values("192.230.0.0", 22)
-sbnt.host_FLSM(200)
+sbnt.host_FLSM(16)
 print("EJEMPLO NUMERO 1")
 sbnt.print_subnets()
 print("")
 
 sbnt.set_values("192.230.0.0", 22)
-sbnt.host_FLSM(2)
+sbnt.network_FLSM(2)
 print("EJEMPLO NUMERO 2")
 sbnt.print_subnets()
 print("")
@@ -32,3 +32,7 @@ sbnt.print_subnets()
 print("")
 
 sbnt.save_subnets()
+
+sbnt.create_tree()
+sbnt.print_tree()
+sbnt.save_tree()

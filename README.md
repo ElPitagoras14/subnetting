@@ -4,27 +4,29 @@
 
 1. [Description](#description)
 2. [Class Use](#class-use)
-    - [FLSM by network](#flsm-by-minimal-networks)
-    - [FLSM by host](#flsm-by-minimal-hosts)
-    - [VLSM sorted host](#vlsm-by-sorted-hosts)
-    - [VLSM host](#vlsm-by-hosts)
-    - [Show in console](#print-by-console)
-    - [Save to a file](#save-to-a-file)
+   - [FLSM by network](#flsm-by-minimal-networks)
+   - [FLSM by host](#flsm-by-minimal-hosts)
+   - [VLSM sorted host](#vlsm-by-sorted-hosts)
+   - [VLSM host](#vlsm-by-hosts)
+   - [Show dictionary](#print-by-console)
+   - [Save dictionary to a file](#save-dictionary-to-a-file)
+   - [Create tree](#create-tree)
+   - [Print tree](#print-tree)
+   - [Save tree](#save-tree)
 3. [Classless Use](#classless-use)
-    - [FLSM by network](#flsm-by-minimal-networks-1)
-    - [FLSM by host](#flsm-by-minimal-hosts-1)
-    - [VLSM sorted host](#vlsm-by-sorted-hosts-1)
-    - [VLSM host](#vlsm-by-hosts-1)
-    - [Show in console](#print-by-console-1)
-    - [Save to a file](#save-to-a-file-1)
+   - [FLSM by network](#flsm-by-minimal-networks-1)
+   - [FLSM by host](#flsm-by-minimal-hosts-1)
+   - [VLSM sorted host](#vlsm-by-sorted-hosts-1)
+   - [VLSM host](#vlsm-by-hosts-1)
+   - [Show dictionary](#print-by-console-1)
+   - [Save dictionary to a file](#save-dictionary-to-a-file-1)
 4. [Terms and Equations](#terms-and-equations)
 5. [FLSM](#flsm-fixed-length-subnet-mask)
-    - [Algorithm](#algorithm)
-    - [Example](#example)
+   - [Algorithm](#algorithm)
+   - [Example](#example)
 6. [VLSM](#vlsm-variable-length-subnet-mask)
-    - [Algorithm](#algorithm-1)
-    - [Example](#example-1)
-
+   - [Algorithm](#algorithm-1)
+   - [Example](#example-1)
 
 ## Description
 
@@ -83,18 +85,18 @@ It is necessary that the addressing tree has been made so that the list has cons
 sbnt.host_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
 ```
 
-### Print by console
+### Print dictionary
 
 This function displays a console table with the subnetting performed by any of the previous functions.
 
 Receives as optional arguments a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
 
 ```python
-sbnt.print_subnets() #Print by console
-sbnt.print_subnets(nombres) #Print by console
+sbnt.print_subnets() #Print dictionary
+sbnt.print_subnets(nombres) #Print dictionary
 ```
 
-### Save to a file
+### Save dictionary to a file
 
 This function saves a table with the subnetting performed by any of the previous functions in a file.
 
@@ -104,6 +106,41 @@ Receives as optional arguments a list of strings parallel to the number of items
 sbnt.write_subnets() #Save to networks.txt listed as Net i
 sbnt.write_subnets(nombres) #Save in networks.txt listed as the names of the list
 sbnt.write_subnets(nombres, "resultados.txt") #Save in results.txt listed as the names of the list
+```
+
+### Create tree
+
+It is possible to create a tree in a simple way once you have the subnetting dictionary made with any of the 4 previous methods.
+
+```python
+sbnt.create_tree() #Create and saves tree structure in sbnt.tree and str form in sbnt.tree_str
+```
+
+### Print tree
+
+To print the tree just call the method. No arguments needed.
+
+```python
+sbnt.print_tree()
+```
+
+```plaintext
+#Example Ouput
+        .——— 24-Net 4
+    .——— 23
+   |    `——— 24-Net 3
+——— 22
+   |    .——— 24-Net 2
+    `——— 23
+        `——— 24-Net 1
+```
+
+### Save tree
+
+To save just call the method with the optional path argument.
+
+```python
+sbnt.save_tree()
 ```
 
 ## Classless Use
@@ -150,7 +187,7 @@ def host_VLSM(ip: str, mascara: int, lista: list):
     #method
 ```
 
-### Print by console
+### Print dictionary
 
 This function displays a console table with the subnetting performed by any of the previous functions.
 
@@ -161,7 +198,7 @@ def print_subnets(dic_redes: dict, nombres: list = None):
     #method
 ```
 
-### Save to a file
+### Save dictionary to a file
 
 This function saves a table with the subnetting performed by any of the previous functions in a file.
 
@@ -208,14 +245,14 @@ $$
 Mask=25+n\rightarrow n=28
 $$
 
-|IP|Mask|Subnet|Broadcast|
-|--|-------|------|---------|
-|199.6.14.0|28|199.6.14.0|199.6.14.15|
-|199.6.14.16|28|199.6.14.16|199.6.14.31|
-|199.6.14.32|28|199.6.14.32|199.6.14.47|
-|199.6.14.48|28|199.6.14.48|199.6.14.63|
-|...|28|...|...|
-|199.6.14.112|28|199.6.14.112|199.6.14.127|
+| IP           | Mask | Subnet       | Broadcast    |
+| ------------ | ---- | ------------ | ------------ |
+| 199.6.14.0   | 28   | 199.6.14.0   | 199.6.14.15  |
+| 199.6.14.16  | 28   | 199.6.14.16  | 199.6.14.31  |
+| 199.6.14.32  | 28   | 199.6.14.32  | 199.6.14.47  |
+| 199.6.14.48  | 28   | 199.6.14.48  | 199.6.14.63  |
+| ...          | 28   | ...          | ...          |
+| 199.6.14.112 | 28   | 199.6.14.112 | 199.6.14.127 |
 
 ## VLSM (Variable-Length Subnet Mask)
 
@@ -235,9 +272,9 @@ The VLSM process is similar to performing FLSM for each new subnet.
 
 **Network of 100, 50, 25 and 25 hosts is required.** Starting at **IP address 200.10.100.0/24.**
 
-|IP|Host|n|m|Mask|Subnet|Broadcast|
-|--|----|-|-|-------|------|---------|
-|200.10.100.0|100|1|7|25|2000.10.100.0|200.10.100.127|
-|200.10.100.128|50|1|6|26|200.10.100.128|200.10.100.191|
-|200.10.100.192|25|1|5|27|200.10.100.192|200.10.100.223|
-|200.10.100.224|25|0|5|27|200.10.100.224|200.10.100.255|
+| IP             | Host | n   | m   | Mask | Subnet         | Broadcast      |
+| -------------- | ---- | --- | --- | ---- | -------------- | -------------- |
+| 200.10.100.0   | 100  | 1   | 7   | 25   | 2000.10.100.0  | 200.10.100.127 |
+| 200.10.100.128 | 50   | 1   | 6   | 26   | 200.10.100.128 | 200.10.100.191 |
+| 200.10.100.192 | 25   | 1   | 5   | 27   | 200.10.100.192 | 200.10.100.223 |
+| 200.10.100.224 | 25   | 0   | 5   | 27   | 200.10.100.224 | 200.10.100.255 |

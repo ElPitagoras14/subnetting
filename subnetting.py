@@ -71,8 +71,8 @@ def red_FLSM(ip: str, mascara: int, redes_minima: int):
     nueva_mascara = mascara + n
     m = 32 - nueva_mascara
 
-    for i in range(redes_minima):
-        red = "Red " + str(i + 1)
+    for i in range(pow(2, n)):
+        red = "Net " + str(i + 1)
         dic[red] = []
         dic[red].append(ip)
         dic[red].append(nueva_mascara)
@@ -127,9 +127,7 @@ def print_subnets(dic_redes: dict, nombres: list = None):
 
 
 def write_subnets(dic_redes: dict, nombres: list = None, path: str = "./redes.txt"):
-    if (not path):
-        path = "./redes.txt"
-    f = open(path, "w")
+    f = open(path, "w", encoding="UTF-8")
     f.write("%20s\t%18s%10s%18s\n" %
             ("Name of network", "Subnet", "Mask", "Broadcast"))
     if (nombres):
