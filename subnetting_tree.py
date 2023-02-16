@@ -55,8 +55,14 @@ class SubnettingTree:
                 node.mask + 1, ip[n], name[n]), n, mask, ip, name)
             node.right, n2 = self.create_rec(SubnettingNode(
                 node.mask + 1, ip[n1], name[n1]), n1, mask, ip, name)
+            if node.mask == 24:
+                print(n1)
+            return node, n2
 
-        return node, n2
+        if node.mask > mask[n]:
+            node.name = "Relleno"
+            return node, n
+
 
 
 def save_tree(tree_str: str, path: str = None):

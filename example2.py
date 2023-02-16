@@ -26,6 +26,7 @@ print("")
 
 # Hace VLSM en el orden de los host. Usable cuando ya se realizó el arbol de direccionamiento y se agregan las hojas de izq a der
 sbnt.set_values("200.10.100.0", 24)
+lista = [50, 25, 100]
 sbnt.host_VLSM(lista)
 print("EJEMPLO NUMERO 4")
 sbnt.print_subnets()
