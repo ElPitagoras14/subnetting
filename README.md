@@ -72,7 +72,7 @@ It performs subnetting with the VLSM technique passing as argument a list of the
 Additionally, this function sorts the list before subnetting.
 
 ```python
-sbnt.host_sort_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
+sbnt.ordered_host_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
 ```
 
 ### VLSM by host
@@ -93,7 +93,7 @@ Receives as optional arguments a string list parallel to the number of items in 
 
 ```python
 sbnt.print_subnets() #Print dictionary
-sbnt.print_subnets(nombres) #Print dictionary
+sbnt.print_subnets(names) #Print dictionary
 ```
 
 ### Save dictionary to a file
@@ -104,8 +104,8 @@ Receives as optional arguments a list of strings parallel to the number of items
 
 ```python
 sbnt.write_subnets() #Save to networks.txt listed as Net i
-sbnt.write_subnets(nombres) #Save in networks.txt listed as the names of the list
-sbnt.write_subnets(nombres, "resultados.txt") #Save in results.txt listed as the names of the list
+sbnt.write_subnets(names) #Save in networks.txt listed as the names of the list
+sbnt.write_subnets(names, "result.txt") #Save in results.txt listed as the names of the list
 ```
 
 ### Create tree
@@ -154,7 +154,7 @@ All the functions return a dictionary where the key is the network number and th
 It performs subnetting with the FLSM technique passing as arguments the initial ip, the network mask and the number of minimum networks it needs.
 
 ```python
-def red_FLSM(ip: str, mascara: int, redes_minima: int):
+def networks_FLSM(ip: str, mask: int, min_networks: int):
     #method
 ```
 
@@ -163,7 +163,7 @@ def red_FLSM(ip: str, mascara: int, redes_minima: int):
 It performs subnetting with the FLSM technique passing as arguments the initial ip, the network mask and the number of minimum hosts it needs.
 
 ```python
-def host_FLSM(ip: str, mascara: int, host_minimo: int):
+def host_FLSM(ip: str, mask: int, min_host: int):
     #method
 ```
 
@@ -174,7 +174,7 @@ It performs subnetting with the VLSM technique passing as arguments the initial 
 Additionally, this function sorts the list before subnetting.
 
 ```python
-def host_ord_VLSM(ip: str, mascara: int, lista: list):
+def ordered_host_VLSM(ip: str, mask: int, host_list: list[int]):
     #method
 ```
 
@@ -183,7 +183,7 @@ def host_ord_VLSM(ip: str, mascara: int, lista: list):
 It performs subnetting with the VLSM technique passing as arguments the initial ip, the network mask and a list of the number of hosts per network needed.
 
 ```python
-def host_VLSM(ip: str, mascara: int, lista: list):
+def host_VLSM(ip: str, mask: int, host_list: list[int]):
     #method
 ```
 
@@ -194,7 +194,7 @@ This function displays a console table with the subnetting performed by any of t
 Receives the subnetting dictionary as arguments and optionally a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
 
 ```python
-def print_subnets(dic_redes: dict, nombres: list = None):
+def print_subnets(networks_dic: dict, names_list: list = None):
     #method
 ```
 
@@ -205,7 +205,7 @@ This function saves a table with the subnetting performed by any of the previous
 Receives the subnetting dictionary as arguments, optionally a list of strings parallel to the number of items in the dictionary to save each network with a custom name, otherwise it prints **Net i** and optionally a directory to save it.
 
 ```python
-def write_subnets(dic_redes: dict, nombres: list = None, path: str = "./redes.txt"):
+def write_subnets(networks_dic: dict, names_list: list = None, path: str = "./networks.txt"):
     #method
 ```
 
