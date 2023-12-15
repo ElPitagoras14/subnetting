@@ -27,45 +27,47 @@ All the subnetting functions return the following structure:
 
 ```json
 {
-    "subnet_info": <vlsm info> | <flsm info>,
+    "subnet_info": "<vlsm info> | <flsm info>",
     "networks": [
         {
-            "name": <net name>,
-            "subnet": <ip>,
-            "mask": <mask>,
-            "first_ip": <first ip>,
-            "last_ip": <last valid ip>,
-            "broadcast": <last ip>
+            "name": "<net name>",
+            "subnet": "<ip>",
+            "mask": "<mask>",
+            "first_ip": "<first ip>",
+            "last_ip": "<last valid ip>",
+            "broadcast": "<last ip>",
         },
-        ...,
         {
-            "name": <net name>,
-            "subnet": <ip>,
-            "mask": <mask>,
-            "first_ip": <first ip>,
-            "last_ip": <last valid ip>,
-            "broadcast": <last ip>
+
+        },
+        {
+            "name": "<net name>",
+            "subnet": "<ip>",
+            "mask": "<mask>",
+            "first_ip": "<first ip>",
+            "last_ip": "<last valid ip>",
+            "broadcast": "<last ip>",
         }
     ]
 }
 
 {
     "vlsm_info": {
-        "initial_ip": <ip>,
-        "initial_mask": <mask>,
-        "initial_host_per_network": <host list>,
-        "host_per_network": <final host list>,
+        "initial_ip": "<ip>",
+        "initial_mask": "<mask>",
+        "initial_host_per_network": "<host list>",
+        "host_per_network": "<final host list>",
     },
 }
 
 {
     "flsm_info": {
-        "initial_ip": <ip>,
-        "initial_mask": <mask>,
-        "n": <n>,
-        "m": <m>,
-        "number_of_networks": <number of networks>,
-        "number_of_hosts": <number of host per network>,
+        "initial_ip": "<ip>",
+        "initial_mask": "<mask>",
+        "n": "<n>",
+        "m": "<m>",
+        "number_of_networks": "<number of networks>",
+        "number_of_hosts": "<number of host per network>",
     },
 }
 ```
