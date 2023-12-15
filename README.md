@@ -3,151 +3,72 @@
 ## Table of Content
 
 1. [Description](#description)
-2. [Class Use](#class-use)
+2. [Use](#use)
    - [FLSM by network](#flsm-by-minimal-networks)
    - [FLSM by host](#flsm-by-minimal-hosts)
    - [VLSM sorted host](#vlsm-by-sorted-hosts)
    - [VLSM host](#vlsm-by-hosts)
-   - [Show dictionary](#print-by-console)
-   - [Save dictionary to a file](#save-dictionary-to-a-file)
-   - [Create tree](#create-tree)
-   - [Print tree](#print-tree)
+   - [Print subnets](#print-subnets)
+   - [Save subnets to a file](#save-subnets-to-a-file)
+   - [Create subnet tree](#create-subnet-tree)
+   - [Generate tree string](#generate-tree-string)
    - [Save tree](#save-tree)
-3. [Classless Use](#classless-use)
-   - [FLSM by network](#flsm-by-minimal-networks-1)
-   - [FLSM by host](#flsm-by-minimal-hosts-1)
-   - [VLSM sorted host](#vlsm-by-sorted-hosts-1)
-   - [VLSM host](#vlsm-by-hosts-1)
-   - [Show dictionary](#print-by-console-1)
-   - [Save dictionary to a file](#save-dictionary-to-a-file-1)
-4. [Terms and Equations](#terms-and-equations)
-5. [FLSM](#flsm-fixed-length-subnet-mask)
+3. [Terms and Equations](#terms-and-equations)
+4. [FLSM](#flsm-fixed-length-subnet-mask)
    - [Algorithm](#algorithm)
    - [Example](#example)
-6. [VLSM](#vlsm-variable-length-subnet-mask)
+5. [VLSM](#vlsm-variable-length-subnet-mask)
    - [Algorithm](#algorithm-1)
    - [Example](#example-1)
 
-## Description
+## Use
 
-Code written in python where the algorithm for IP segmentation with FLSM and VLSM techniques is used.
+All the subnetting functions return the following structure:
 
-## Class Use
+```json
+{
+    "subnet_info": <vlsm info> | <flsm info>,
+    "networks": [
+        {
+            "name": <net name>,
+            "subnet": <ip>,
+            "mask": <mask>,
+            "first_ip": <first ip>,
+            "last_ip": <last valid ip>,
+            "broadcast": <last ip>
+        },
+        ...,
+        {
+            "name": <net name>,
+            "subnet": <ip>,
+            "mask": <mask>,
+            "first_ip": <first ip>,
+            "last_ip": <last valid ip>,
+            "broadcast": <last ip>
+        }
+    ]
+}
 
-Making use of the functions is done via the `Subnetting` class in the API.py file, there are 4 options for subnetting and 2 functions for presenting the subnets. Additionally there is some example code in `./example2.py`.
+{
+    "vlsm_info": {
+        "initial_ip": <ip>,
+        "initial_mask": <mask>,
+        "initial_host_per_network": <host list>,
+        "host_per_network": <final host list>,
+    },
+}
 
-All the functions save a dictionary in the class instance where the key is the network number and the value is a list with the subnet ip, new mask and broadcast ip.
-
-### Create Instance
-
-To create an instance of the class is a trivial process. From there, you have to set the values using `set_values` where you must pass the ip and the initial mask.
-
-Once these steps have been carried out, the functions for subnetting can be used by passing the required parameters.
-
-```python
-sbnt = Subnetting()
-sbnt.set_values("192.168.0.0", 22)
+{
+    "flsm_info": {
+        "initial_ip": <ip>,
+        "initial_mask": <mask>,
+        "n": <n>,
+        "m": <m>,
+        "number_of_networks": <number of networks>,
+        "number_of_hosts": <number of host per network>,
+    },
+}
 ```
-
-### FLSM by minimal networks
-
-It performs subnetting with the FLSM technique passing as argument the number of minimum networks it needs.
-
-```python
-sbnt.network_FLSM(4) #Save the result in sbnt.dic
-```
-
-### FLSM by minimal hosts
-
-It performs subnetting with the FLSM technique passing as argument the number of minimum hosts per network it needs.
-
-```python
-sbnt.host_FLSM(200) #Save the result in sbnt.dic
-```
-
-### VLSM by sorted hosts
-
-It performs subnetting with the VLSM technique passing as argument a list of the number of hosts per network needed.
-
-Additionally, this function sorts the list before subnetting.
-
-```python
-sbnt.ordered_host_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
-```
-
-### VLSM by host
-
-It performs subnetting with the VLSM technique passing as argument a list of the number of hosts per network needed.
-
-It is necessary that the addressing tree has been made so that the list has consistency with the hosts and networks.
-
-```python
-sbnt.host_VLSM([50, 25, 100, 25]) #Save the result in sbnt.dic
-```
-
-### Print dictionary
-
-This function displays a console table with the subnetting performed by any of the previous functions.
-
-Receives as optional arguments a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
-
-```python
-sbnt.print_subnets() #Print dictionary
-sbnt.print_subnets(names) #Print dictionary
-```
-
-### Save dictionary to a file
-
-This function saves a table with the subnetting performed by any of the previous functions in a file.
-
-Receives as optional arguments a list of strings parallel to the number of items in the dictionary to save each network with a custom name, otherwise it prints **Net i** and optionally a directory to save it.
-
-```python
-sbnt.write_subnets() #Save to networks.txt listed as Net i
-sbnt.write_subnets(names) #Save in networks.txt listed as the names of the list
-sbnt.write_subnets(names, "result.txt") #Save in results.txt listed as the names of the list
-```
-
-### Create tree
-
-It is possible to create a tree in a simple way once you have the subnetting dictionary made with any of the 4 previous methods.
-
-```python
-sbnt.create_tree() #Create and saves tree structure in sbnt.tree and str form in sbnt.tree_str
-```
-
-### Print tree
-
-To print the tree just call the method. No arguments needed.
-
-```python
-sbnt.print_tree()
-```
-
-```plaintext
-#Example Ouput
-        .——— 24-Net 4
-    .——— 23
-   |    `——— 24-Net 3
-——— 22
-   |    .——— 24-Net 2
-    `——— 23
-        `——— 24-Net 1
-```
-
-### Save tree
-
-To save just call the method with the optional path argument.
-
-```python
-sbnt.save_tree()
-```
-
-## Classless Use
-
-The previously shown functions can be applied without the class, they are also found in the `subnetting.py` file and can be used without problems, but we recommend using the `Subnetting` class.
-
-All the functions return a dictionary where the key is the network number and the value is a list with the subnet ip, new mask and broadcast ip. Additionally there is some example code in `./example1.py`.
 
 ### FLSM by minimal networks
 
@@ -155,7 +76,7 @@ It performs subnetting with the FLSM technique passing as arguments the initial 
 
 ```python
 def networks_FLSM(ip: str, mask: int, min_networks: int):
-    #method
+    # method
 ```
 
 ### FLSM by minimal hosts
@@ -164,7 +85,7 @@ It performs subnetting with the FLSM technique passing as arguments the initial 
 
 ```python
 def host_FLSM(ip: str, mask: int, min_host: int):
-    #method
+    # method
 ```
 
 ### VLSM by sorted hosts
@@ -175,7 +96,7 @@ Additionally, this function sorts the list before subnetting.
 
 ```python
 def ordered_host_VLSM(ip: str, mask: int, host_list: list[int]):
-    #method
+    # method
 ```
 
 ### VLSM by hosts
@@ -184,29 +105,68 @@ It performs subnetting with the VLSM technique passing as arguments the initial 
 
 ```python
 def host_VLSM(ip: str, mask: int, host_list: list[int]):
-    #method
+    # method
 ```
 
-### Print dictionary
+### Print subnets
 
 This function displays a console table with the subnetting performed by any of the previous functions.
 
 Receives the subnetting dictionary as arguments and optionally a string list parallel to the number of items in the dictionary to display each network with a custom name otherwise it prints **Net i**.
 
 ```python
-def print_subnets(networks_dic: dict, names_list: list = None):
-    #method
+def print_subnets(networks: list, names_list: list = None):
+    # method
 ```
 
-### Save dictionary to a file
+### Save subnets to a file
 
 This function saves a table with the subnetting performed by any of the previous functions in a file.
 
 Receives the subnetting dictionary as arguments, optionally a list of strings parallel to the number of items in the dictionary to save each network with a custom name, otherwise it prints **Net i** and optionally a directory to save it.
 
 ```python
-def write_subnets(networks_dic: dict, names_list: list = None, path: str = "./networks.txt"):
-    #method
+def write_subnets(networks: list, names_list: list = None, path: str = "./networks.txt"):
+    # method
+```
+
+### Create Subnet Tree
+
+This function creates a binary tree structure using nodes. It represents the subnet tree.
+
+Receives the initial ip, initial mask and the list of networks. All of this information can be obtained with the subnet functions.
+
+```python
+def create_tree(subnet: dict):
+    # method
+```
+
+### Generate Tree String
+
+This functions generates a console printable string to see the tree structure.
+
+Receives the root of the tree, it can be obtained with `create_tree` function.
+
+```python
+def tree_to_str(node: SubnettingNode, prev: Trunk = None, isRight: bool = False):
+    # method
+
+# Example
+subnet_info = networks_FLSM("192.168.0.0", 24, 4)
+tree = create_tree(subnet_info)
+tree_str = tree_to_str(tree)
+print(tree_str)
+```
+
+### Save Tree
+
+This function saves the tree to a txt file.
+
+Receives the tree string and saves it to the passed path.
+
+```python
+def save_tree(tree_str: str, path: str = "./tree.txt"):
+    # method
 ```
 
 ## Terms and Equations
