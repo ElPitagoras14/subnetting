@@ -3,14 +3,19 @@ from utils import (
     get_next_ip,
     get_potential_bit_number,
     add_host,
+    is_valid_ip,
 )
 from exceptions import (
     InsufficientHostsMaskException,
     InsufficientNetworkMaskException,
+    InvalidIPException,
 )
 
 
 def networks_FLSM(ip: str, mask: int, min_networks: int):
+    if not is_valid_ip(ip):
+        raise InvalidIPException()
+
     network_list = []
     n = get_potential_bit_number(min_networks)
     new_mask = mask + n
@@ -46,6 +51,9 @@ def networks_FLSM(ip: str, mask: int, min_networks: int):
 
 
 def host_FLSM(ip: str, mask: int, min_host: int):
+    if not is_valid_ip(ip):
+        raise InvalidIPException()
+
     m = get_potential_bit_number(min_host + 2)
     n = 32 - mask - m
     if (m < 0) or (n < 0):
@@ -54,16 +62,17 @@ def host_FLSM(ip: str, mask: int, min_host: int):
 
 
 def host_VLSM(ip: str, mask: int, host_list: list[int]):
+    if not is_valid_ip(ip):
+        raise InvalidIPException()
+
     network_list = []
     final_host_list = []
     cnt = 0
     total_hosts = sum(
         [pow(2, get_potential_bit_number(x + 2)) for x in host_list]
     )
-    print(total_hosts)
     m = get_potential_bit_number(total_hosts)
     n = 32 - mask - m
-    print(m, n)
     if (m < 0) or (n < 0):
         raise InsufficientHostsMaskException()
 
@@ -98,6 +107,9 @@ def host_VLSM(ip: str, mask: int, host_list: list[int]):
 
 
 def ordered_host_VLSM(ip: str, mask: int, host_list: list[int]):
+    if not is_valid_ip(ip):
+        raise InvalidIPException()
+
     ordered_list = sorted(host_list, reverse=True)
     return host_VLSM(ip, mask, ordered_list)
 

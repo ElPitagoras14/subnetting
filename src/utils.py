@@ -54,3 +54,13 @@ def get_next_ip(ip: str):
             octects[i - 1] += 1
             octects[i] = 0
     return ".".join(cast_octets_str(octects))
+
+
+def is_valid_ip(ip: str):
+    octects = cast_octets_int(ip)
+    if len(octects) != 4:
+        return False
+    for octect in octects:
+        if octect < 0 or octect > 255:
+            return False
+    return True

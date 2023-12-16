@@ -17,3 +17,8 @@ class InsufficientNetworkMaskException(SubnetException):
             "Insufficient network mask. Use a bigger mask or set"
             + " less networks."
         )
+
+
+class InvalidIPException(SubnetException):
+    def __init__(self):
+        super().__init__("Invalid IP address.")
