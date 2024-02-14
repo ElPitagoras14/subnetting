@@ -1,19 +1,21 @@
-from classes import SubnettingNode, Trunk
+from .classes import SubnettingNode, Trunk
 
 
 def get_data(networks: list):
-    ip_list = []
+    subnet_list = []
     mask_list = []
     name_list = []
 
     for net in networks:
-        ip_list.append(net["subnet"])
+        subnet_list.append(net["subnet"])
         mask_list.append(net["mask"])
         name_list.append(net["name"])
-    return ip_list, mask_list, name_list
+    return subnet_list, mask_list, name_list
 
 
-def create_rec(node: SubnettingNode, n: int, mask: list, ip: list, name: list):
+def create_rec(
+    node: SubnettingNode, n: int, mask: list, subnet: list, name: list
+):
     if n == len(mask):
         return node, n
 
@@ -23,17 +25,17 @@ def create_rec(node: SubnettingNode, n: int, mask: list, ip: list, name: list):
     if node.mask < mask[n]:
         node.name = None
         node.left, n1 = create_rec(
-            SubnettingNode(node.mask + 1, ip[n], name[n]),
+            SubnettingNode(node.mask + 1, subnet[n], name[n]),
             n,
             mask,
-            ip,
+            subnet,
             name,
         )
         node.right, n2 = create_rec(
-            SubnettingNode(node.mask + 1, ip[n1], name[n1]),
+            SubnettingNode(node.mask + 1, subnet[n1], name[n1]),
             n1,
             mask,
-            ip,
+            subnet,
             name,
         )
         return node, n2
@@ -46,10 +48,10 @@ def create_rec(node: SubnettingNode, n: int, mask: list, ip: list, name: list):
 def create_tree(subnet: dict):
     networks = subnet["networks"]
     mask = subnet["subnet_info"]["initial_mask"]
-    ip = subnet["subnet_info"]["initial_ip"]
-    root = SubnettingNode(mask, ip)
-    ip, mask, name = get_data(networks)
-    return create_rec(root, 0, mask, ip, name)[0]
+    subnet = subnet["subnet_info"]["initial_ip"]
+    root = SubnettingNode(mask, subnet)
+    subnet, mask, name = get_data(networks)
+    return create_rec(root, 0, mask, subnet, name)[0]
 
 
 def save_tree(tree_str: str, path: str = "./tree.txt"):
@@ -94,3 +96,21 @@ def tree_to_str(
     trunk.str = "   |"
     message += tree_to_str(node.left, trunk, False)
     return message
+
+
+def get_d3_tree(root: SubnettingNode):
+    if root is None:
+        return None
+
+    dict_tmp = {
+        "name": root.__str__(),
+        "attributes": {"mask": root.mask, "subnet": root.subnet},
+    }
+
+    if root.left is not None:
+        dict_tmp["children"] = [
+            get_d3_tree(root.left),
+            get_d3_tree(root.right),
+        ]
+
+    return dict_tmp

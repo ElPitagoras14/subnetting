@@ -1,7 +1,7 @@
 class SubnettingNode:
-    def __init__(self, mask: int, ip: str, name: str = None) -> None:
+    def __init__(self, mask: int, subnet: str, name: str = None) -> None:
         self.mask = mask
-        self.ip = ip
+        self.subnet = subnet
         self.name = name
         self.left = None
         self.right = None

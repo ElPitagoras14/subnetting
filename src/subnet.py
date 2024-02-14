@@ -1,11 +1,11 @@
-from utils import (
+from .utils import (
     get_previous_ip,
     get_next_ip,
     get_potential_bit_number,
     add_host,
     is_valid_ip,
 )
-from exceptions import (
+from .exceptions import (
     InsufficientHostsMaskException,
     InsufficientNetworkMaskException,
     InvalidIPException,
@@ -23,6 +23,8 @@ def networks_FLSM(ip: str, mask: int, min_networks: int):
     if (m < 0) or (n < 0):
         raise InsufficientNetworkMaskException()
 
+    initial_ip = ip
+
     for i in range(pow(2, n)):
         red = "Net " + str(i + 1)
         net_tmp = {
@@ -38,7 +40,7 @@ def networks_FLSM(ip: str, mask: int, min_networks: int):
 
     subnet = {
         "subnet_info": {
-            "initial_ip": ip,
+            "initial_ip": initial_ip,
             "initial_mask": mask,
             "n": n,
             "m": m,
@@ -73,8 +75,10 @@ def host_VLSM(ip: str, mask: int, host_list: list[int]):
     )
     m = get_potential_bit_number(total_hosts)
     n = 32 - mask - m
-    if (m < 0) or (n < 0):
+    if (m < 0) or (n < 0) or (total_hosts > pow(2, n)):
         raise InsufficientHostsMaskException()
+
+    initial_ip = ip
 
     for host in host_list:
         m = get_potential_bit_number(host + 2)
@@ -96,7 +100,7 @@ def host_VLSM(ip: str, mask: int, host_list: list[int]):
 
     subnet = {
         "subnet_info": {
-            "initial_ip": ip,
+            "initial_ip": initial_ip,
             "initial_mask": mask,
             "initial_host_per_network": host_list,
             "host_per_network": final_host_list,
